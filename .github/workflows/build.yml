@@ -41,7 +41,7 @@ jobs:
 
   build-windows-arm64:
     name: Build Windows ARM64
-    runs-on: windows-11-arm # Uses native ARM runner for public repos
+    runs-on: windows-arm64 # Updated label for native ARM64 runner
     
     steps:
       - uses: actions/checkout@v4
