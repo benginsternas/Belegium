@@ -6,12 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    name: Build Windows ${{ matrix.arch }}
+  build-windows-x64:
+    name: Build Windows x64
     runs-on: windows-latest
-    strategy:
-      matrix:
-        arch: [x64, arm64]
     
     steps:
       - uses: actions/checkout@v4
@@ -23,30 +20,56 @@ jobs:
           cache: true
 
       - name: Install dependencies
+        shell: pwsh
         run: flutter pub get
 
       - name: Build Windows
-        run: |
-          if ("${{ matrix.arch }}" -eq "arm64") {
-            flutter build windows --target-platform windows-arm64
-          } else {
-            flutter build windows
-          }
+        run: flutter build windows --release
 
       - name: Package Windows Artifact
         shell: pwsh
         run: |
           $version = (Get-Content pubspec.yaml | Select-String "version: " | ForEach-Object { $_.ToString().Split(": ")[1].Trim() })
           $folder = "build/windows/x64/runner/Release"
-          if ("${{ matrix.arch }}" -eq "arm64") {
-            $folder = "build/windows/arm64/runner/Release"
-          }
-          Compress-Archive -Path "$folder/*" -DestinationPath "belegium_${version}_windows_${{ matrix.arch }}.zip"
+          Compress-Archive -Path "$folder/*" -DestinationPath "belegium_${version}_windows_x64.zip"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-${{ matrix.arch }}-build
+          name: windows-x64-build
+          path: "*.zip"
+
+  build-windows-arm64:
+    name: Build Windows ARM64
+    runs-on: windows-11-arm # Uses native ARM runner for public repos
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        shell: pwsh
+        run: flutter pub get
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: Package Windows Artifact
+        shell: pwsh
+        run: |
+          $version = (Get-Content pubspec.yaml | Select-String "version: " | ForEach-Object { $_.ToString().Split(": ")[1].Trim() })
+          $folder = "build/windows/arm64/runner/Release"
+          Compress-Archive -Path "$folder/*" -DestinationPath "belegium_${version}_windows_arm64.zip"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-arm64-build
           path: "*.zip"
 
   build-macos:
