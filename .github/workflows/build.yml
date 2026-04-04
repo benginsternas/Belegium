@@ -51,6 +51,7 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+          architecture: x64
 
       - name: Install dependencies
         shell: pwsh
