@@ -2,7 +2,7 @@
 **Von der Excel-Tabelle zur fertigen Kassenanordnung. Automatisiert und rechtssicher.**
 
 Belegium ist ein Tool, das den Prozess der Kassenanordnung vereinfacht. Es extrahiert Finanzdaten aus einer formatierten Excel-Liste und exportiert diese als PDF-Dateien, basierend auf dem offiziellen Formular-Layout. 
-Der Name setzt sich zusammen aus Beleg und Gremium – und beschreibt genau, wofür die App steht
+Der Name setzt sich zusammen aus Beleg und Gremium und beschreibt genau, wofür die App steht
 
 Die Anwendung entstand aus dem Bedarf der studentischen Gremien der Technischen Hochschule Köln. Als Open-Source-Projekt unter der Apache-2.0-Lizenz steht sie jedoch allen offen: Jeder darf Belegium kostenfrei nutzen, den Quellcode einsehen, weitergeben und nach eigenen Bedürfnissen anpassen.
 
